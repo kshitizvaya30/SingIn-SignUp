@@ -37,3 +37,9 @@ export const phoneNoAuthentication = (phoneNumnber) => {
     }
       return false;
 }
+
+
+export const pincodeAuthentication = (pincode) => {
+  const numberString = pincode.toString();
+  return numberString.length === 6; 
+}

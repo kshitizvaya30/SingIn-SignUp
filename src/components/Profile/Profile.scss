@@ -1,0 +1,125 @@
+@import "../css-config/mixins.scss";
+
+.userProfile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    position: relative;
+
+    .backgroundImage {
+        height: 100vh;
+        width: 100%;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        z-index: -1;
+
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .heading {
+        font-size: 50px;
+        font-weight: 900;
+        color: rgba(232, 95, 60, 1);
+        margin: 20px 0px;
+        // margin-bottom: 100px;
+    }
+
+    .profileContainer {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 80%;
+        background-color: rgba(255, 255, 255, 0.9);
+
+        @include md {
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+        }
+
+        .profilePic {
+            width: 50%;
+            margin: 20px;
+
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: contain;
+            }
+        }
+
+        .profileDetails {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            width: 80%;
+            height: 80%;
+            margin: 10%;
+
+            .editProfile {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                width: 100%;
+
+
+                Button {
+                    background-color: rgba(232, 95, 60, 1);
+                    color: white;
+                    font-weight: 800;
+                    border: 1px solid white;
+                    cursor: pointer;
+
+
+                    &:hover {
+                        color: rgba(232, 95, 60, 1);
+                        background-color: white;
+                        border: 1px solid rgba(232, 95, 60, 1);
+                    }
+                }
+            }
+
+
+            .field {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+                margin: 10px;
+
+                input {
+                    padding: 5px;
+                    border: none;
+                    border-bottom: 1px solid rgb(86, 86, 86);
+                }
+
+            }
+        }
+    }
+
+    .checkItems {
+        margin: 30px;
+        .checkButton {
+            background-color: rgba(232, 95, 60, 1);
+            color: white;
+            font-weight: 800;
+            border: 1px solid white;
+            cursor: pointer;
+
+
+            &:hover {
+                color: rgba(232, 95, 60, 1);
+                background-color: white;
+                border: 1px solid rgba(232, 95, 60, 1);
+            }
+        }
+    }
+}

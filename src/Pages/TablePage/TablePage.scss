@@ -1,0 +1,32 @@
+.tableContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+
+    .backgroundImage {
+        .imgContainer {
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            z-index: -1;
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+        }
+    }
+
+    .heading {
+        font-size: 50px;
+        font-weight: 700;
+        margin-top: 100px;
+        color: rgb(249, 83, 22);
+    }
+
+    .tableData {
+        margin: 20px;
+        background-color: rgb(255, 255, 255,0.9);
+        border-radius: 30px;
+    }
+}

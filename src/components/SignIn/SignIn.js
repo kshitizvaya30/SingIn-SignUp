@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./SignIn.scss";
 import LogoImg from "../../assets/logoipsum-291.svg";
 import Button from "react-bootstrap/Button";
+import { EmailAuthentication, PasswordAuthentication, phoneNoAuthentication } from "../Authentication/FieldAuthentication";
 
 function SignIn() {
   const [signInId, setSignInId] = useState("");
@@ -14,12 +15,10 @@ function SignIn() {
     const value = e.target.value;
     setSignInId(value);
     setValidSignInId(true);
-    const emailRegex = /^\S+@\S+\.\S+$/;
-    const phoneRegex = /^[0-9]{10}$/;
   
-    if (emailRegex.test(value)) {
+    if (EmailAuthentication(value)) {
       console.log("Valid email format");
-    } else if (phoneRegex.test(value)) {
+    } else if (phoneNoAuthentication(value)) {
       console.log("Valid phone number format");
     } else {
       console.log("Invalid Sign In ID format");
@@ -29,23 +28,7 @@ function SignIn() {
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
-      setValidPass(true);
-      if (password.length < 7) {
-        console.log("Password should be at least 7 characters long");
-        setValidPass(false);
-        return;
-      }
-      if (!/[A-Z]/.test(password)) {
-        console.log("Password should contain at least one uppercase letter");
-        setValidPass(false);
-        return;
-      }
-  
-      if (!/[!@#$%^&*]/.test(password)) {
-        console.log("Password should contain at least one special character (!@#$%^&*)");
-        setValidPass(false);
-        return;
-      }
+      setValidPass(PasswordAuthentication(password));
   };
 
   const handleSignIn = () => {
