@@ -1,5 +1,4 @@
 export const PasswordAuthentication = (password) => {
-  console.log(password);
   if (password.length < 7) {
     console.log("Password should be at least 7 characters long");
     return false;

@@ -1,22 +1,21 @@
-@import '../css-config/mixins.scss';
-@import url('https://fonts.googleapis.com/css2?family=Mukta&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Serif+Pro:ital@1&display=swap');
+@import "../css-config/mixins.scss";
+@import url("https://fonts.googleapis.com/css2?family=Mukta&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Serif+Pro:ital@1&display=swap");
 
-
-.signInContainer{
+.signInContainer {
     height: 500px;
     width: 400px;
     min-width: 300px;
     min-height: 300px;
-    background-color: rgba(255,255,255,0.9);
+    background-color: rgba(255, 255, 255, 0.9);
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 20px;
     position: relative;
 
-    .logo{
-        height:60px;
+    .logo {
+        height: 60px;
         width: 60px;
         padding: 10px;
         margin-top: 10px;
@@ -30,19 +29,18 @@
     .heading {
         font-size: 18px;
         font-weight: 900;
-        font-family: 'Mukta', sans-serif;
+        font-family: "Mukta", sans-serif;
         margin-top: 10px;
     }
 
-    .signInForm{
+    .signInForm {
         margin-top: 80px;
 
-        label{
-            font-family: 'Bebas Neue', sans-serif;
+        label {
+            font-family: "Bebas Neue", sans-serif;
             font-size: 16px;
             font-weight: 400;
             color: rgba(20, 18, 17, 0.8);
-            
         }
 
         .field {
@@ -57,36 +55,36 @@
                 border: 1px solid rgb(59, 59, 59);
                 margin-left: -2px;
             }
-        }  
+        }
+
         .signInIdContainer {
             padding: 2px;
-        }   
+        }
 
         .passContainer {
             padding: 2px;
             margin-top: 30px;
-        } 
+        }
     }
 
     .btnContainer {
         display: flex;
         justify-content: center;
         align-items: center;
+
         .signInBtn {
-          background-color: rgb(249, 83, 22);
-          margin-top: 30px;
-          align-self: center;
+            background-color: rgb(249, 83, 22);
+            margin-top: 30px;
+            align-self: center;
         }
     }
 
-    .signUp{
+    .signUp {
         font-size: 16px;
         margin-top: 10px;
-        a {
-            text-decoration: none;
-            color: rgb(249, 83, 22);;
+
+        span {
+            color: rgb(249, 83, 22);
         }
     }
-
-
 }

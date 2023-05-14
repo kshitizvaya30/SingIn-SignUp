@@ -1,36 +1,41 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "react-bootstrap";
 import LogoImg from "../../assets/logoipsum-291.svg";
+import { Context } from "../../context/AppContext";
 import {
   EmailAuthentication,
   PasswordAuthentication,
   phoneNoAuthentication,
 } from "../Authentication/FieldAuthentication";
+import Loader from "../Loader/Loader";
 import "./SignUp.scss";
 
 function SignUp() {
   const [user, setUser] = useState({
     name: "",
     email: "",
-    phoneNo: "",
+    phone_number: "",
     password: "",
   });
+
+  
+  const { userSignUp } = useContext(Context);
+  const[loading, setLoading] = useState(false);
 
   const handleCredentials = (key, value) => {
     setUser((prevUser) => ({
       ...prevUser,
       [key]: value,
     }));
-    console.log(user);
   };
 
   const handleSignUp = () => {
-    if (!EmailAuthentication(user.password)) {
+    if (!EmailAuthentication(user.email)) {
       alert("Email Format Incorrect");
       return;
     }
 
-    if (!phoneNoAuthentication(user.phoneNo)) {
+    if (!phoneNoAuthentication(user.phone_number)) {
       alert("Phone Number Format Incorrect");
       return;
     }
@@ -40,11 +45,13 @@ function SignUp() {
       return;
     }
 
-    
+    setLoading(true);
+    userSignUp(user, setLoading);
   };
 
   return (
     <div className="signUpContainer">
+      {loading && <Loader />}
       <div className="logo">
         <img src={LogoImg} alt="logo" />
       </div>
@@ -73,14 +80,14 @@ function SignUp() {
           />
         </div>
         <div className="phoneContainer field">
-          <label htmlFor="phoneNo" className="phoneNumber">
+          <label htmlFor="phone_number" className="phoneNumber">
             Phone Number
           </label>
           <input
             type="tel"
             placeholder="Phone Number"
-            value={user.phoneNo}
-            onChange={(e) => handleCredentials("phoneNo", e.target.value)}
+            value={user.phone_number}
+            onChange={(e) => handleCredentials("phone_number", e.target.value)}
           />
         </div>
         <div className="passContainer field">

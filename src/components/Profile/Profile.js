@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import profilePic from "../../assets/profile.png";
 import "./Profile.scss";
@@ -8,38 +8,61 @@ import {
   phoneNoAuthentication,
   pincodeAuthentication,
 } from "../Authentication/FieldAuthentication";
+import { Context } from "../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
+  const { user, updateUserData } = useContext(Context);
+  const navigate = useNavigate();
   const [edit, setEdit] = useState(true);
-  const [data, setData] = useState(true);
-  const [user, setUser] = useState({
+  const [userDetails, setUserDetails] = useState({
+    id: user.id,
     name: "",
     email: "",
-    phoneNo: "",
+    phone_number: "",
     city: "",
     state: "",
     pincode: "",
   });
 
+  useEffect(() => {
+    setUserDetails((prevUserDetails) => ({
+      ...prevUserDetails,
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      phone_number: user.phone_number,
+      city: user.city,
+      state: user.state,
+      pincode: user.pincode,
+    }));
+  }, [user]);
+
   const handleData = () => {
-    if (user.phoneNo !== "" && !phoneNoAuthentication(user.phoneNo)) {
+    if (
+      userDetails.phone_number !== "" &&
+      !phoneNoAuthentication(userDetails.phone_number)
+    ) {
       alert("phone Number format is wrong");
       return;
     }
 
-    if (user.pincode !== "" && !pincodeAuthentication(user.pincode)) {
+    if (
+      userDetails.pincode !== "" &&
+      !pincodeAuthentication(userDetails.pincode)
+    ) {
       alert("pincode should be of 6 digits");
     }
     setEdit(true);
+    updateUserData(userDetails);
     //Update Data using API
   };
 
   const handleCredentials = (key, value) => {
-    setUser((prevUser) => ({
-      ...prevUser,
+    setUserDetails((prevUserDetails) => ({
+      ...prevUserDetails,
       [key]: value,
     }));
-    console.log(user);
   };
   return (
     <div className="userProfile">
@@ -65,8 +88,9 @@ function Profile() {
             <div>
               <input
                 type="text"
-                placeholder="Name"
+                // placeholder="Name"
                 disabled={edit}
+                value={userDetails.name}
                 onChange={(e) => handleCredentials("name", e.target.value)}
               ></input>
             </div>
@@ -74,7 +98,12 @@ function Profile() {
           <div className="field">
             <div>EMAIL</div>
             <div>
-              <input type="text" placeholder="Email" disabled={true}></input>
+              <input
+                type="text"
+                // placeholder="Email"
+                value={userDetails.email}
+                disabled={true}
+              ></input>
             </div>
           </div>
           <div className="field">
@@ -82,9 +111,10 @@ function Profile() {
             <div>
               <input
                 type="text"
-                placeholder="Phone Number"
+                // placeholder="Phone Number"
                 disabled={edit}
-                onChange={(e) => handleCredentials("phoneNo", e.target.value)}
+                value={userDetails.phone_number}
+                onChange={(e) => handleCredentials("phone_number", e.target.value)}
               ></input>
             </div>
           </div>
@@ -94,8 +124,9 @@ function Profile() {
             <div>
               <input
                 type="text"
-                placeholder="city"
+                // placeholder="city"
                 disabled={edit}
+                value={userDetails.city}
                 onChange={(e) => handleCredentials("city", e.target.value)}
               ></input>
             </div>
@@ -106,8 +137,9 @@ function Profile() {
             <div>
               <input
                 type="text"
-                placeholder="state"
+                // placeholder="state"
                 disabled={edit}
+                value={userDetails.state}
                 onChange={(e) => handleCredentials("state", e.target.value)}
               ></input>
             </div>
@@ -118,8 +150,9 @@ function Profile() {
             <div>
               <input
                 type="num"
-                placeholder="pincode"
+                // placeholder="pincode"
                 disabled={edit}
+                value={userDetails.pincode}
                 onChange={(e) => handleCredentials("pincode", e.target.value)}
               ></input>
             </div>
@@ -127,7 +160,13 @@ function Profile() {
         </div>
       </div>
       <div className="checkItems">
-        <Button className="checkButton" variant="primary">Check Items </Button>
+        <Button
+          className="checkButton"
+          variant="primary"
+          onClick={() => navigate("/table_data")}
+        >
+          Check Items{" "}
+        </Button>
       </div>
     </div>
   );

@@ -1,37 +1,54 @@
-import { Check, Edit, Save } from "@mui/icons-material";
+import { Add, Check, Delete, Edit, Save, Update } from "@mui/icons-material";
 import { Box, CircularProgress, Fab } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import PopUpEdit from "./PopUpEdit";
 
-function UserActions({ params, rowId, setRowId }) {
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [modalShow, setModalShow] = React.useState(false);
+function UserActions({
+  params,
+  rowId,
+  setRowId,
+  updateModal,
+  updateRow,
+  action,
+}) {
+  const [modalShow, setModalShow] = useState(false);
 
-  const handleSubmit = async () => {
-    setLoading(true);
-    setTimeout(async () => {
-      const result = true;
-      if (result) {
-        setSuccess(true);
-        setRowId(null);
-      }
-      setLoading(false);
-    }, 1500);
+  const handleAction = (action) => {
+    if (action === "edit") {
+      return (
+        <div>
+          <div onClick={() => setModalShow(true)}>
+            <Edit />
+          </div>
+          <PopUpEdit
+            show={modalShow}
+            updateModal={updateModal}
+            updateRow={updateRow}
+            action="Update Row"
+            onHide={() => setModalShow(false)}
+            params={params}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <div onClick={() => setModalShow(true)}>
+            <Delete />
+          </div>
+          <PopUpEdit
+            updateRow={updateRow}
+            action="Confirm Delete"
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            params={params}
+          />
+        </div>
+      );
+    }
   };
 
-  useEffect(() => {
-    if (rowId === params.id && success) setSuccess(false);
-  }, [rowId]);
-
-  return (
-    <Box sx={{ m: 1, position: "relative" }}>
-      <div>
-        <div className="editBtn" onClick={() => setModalShow(true)}><Edit/></div>
-        <PopUpEdit show={modalShow} onHide={() => setModalShow(false)} params={params}/>
-      </div>
-    </Box>
-  );
+  return <Box sx={{ m: 1, position: "relative" }}>{handleAction(action)}</Box>;
 }
 
 export default UserActions;

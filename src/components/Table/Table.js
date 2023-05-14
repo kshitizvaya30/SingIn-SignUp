@@ -1,21 +1,30 @@
 import { Avatar, Box, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import img1 from "../../assets/1.jpg";
-import img2 from "../../assets/2.jpg";
-import img3 from "../../assets/3.jpg";
-import img4 from "../../assets/1.jpg";
-import img5 from "../../assets/5.jpg";
 import moment from "moment";
 import UserActions from "./UserActions";
+import { Button } from "react-bootstrap";
+import PopUpEdit from "./PopUpEdit";
+import { Context } from "../../context/AppContext";
+import Scrollbars from "react-custom-scrollbars";
 
 function Table() {
   const [rowId, setRowId] = useState();
-  const [pageSize, setpageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(5);
+  const [showModal, setShowModal] = useState(false);
+  const { getItems, rowData } = useContext(Context);
+  const [row, setRow] = useState(true);
+
+  useEffect(() => {
+    if (row) {
+      getItems();
+      setRow(false);
+    }
+  }, [row]);
 
   const columns = [
     {
-      field: "photoUrl",
+      field: "item_image",
       headerName: "Avatar",
       width: "100",
       renderCell: (params) => <Avatar src={params.row.photoUrl} />,
@@ -23,90 +32,111 @@ function Table() {
       filterable: false,
     },
     {
-      field: "name",
+      field: "item_name",
       headerName: "Item Name",
-      width: "300",
+      width: "100",
     },
     {
-      field: "price",
+      field: "selling_price",
       headerName: "Price",
-      width: "100",
+      width: "60",
     },
 
     {
-      field: "quantity",
+      field: "item_quantity",
       headerName: "Quantity",
-      width: "100",
+      width: "80",
     },
     {
-      field: "category",
+      field: "item_category",
       headerName: "Category",
-      width: "300",
+      width: "200",
     },
     {
-      field: "availability",
+      field: "item_available_from",
       headerName: "Available from",
-      width: "400",
+      width: "200",
       renderCell: (params) =>
         moment(params.row.availability).format("DD-MM-YYYY"),
     },
     {
-      field: "actions",
-      headerName: "Actions",
+      field: "edit",
+      headerName: "Edit",
       type: "actions",
-      renderCell: (params) => <UserActions {...{ params, rowId, setRowId }} />,
+      renderCell: (params) => (
+        <UserActions
+          {...{ params, rowId, setRowId,updateModal: setShowModal,updateRow: setRow, action: "edit" }}
+        />
+      ),
     },
+    {
+      field: "delete",
+      headerName: "Delete",
+      type: "actions",
+      renderCell: (params) => (
+        <UserActions
+          {...{ params, rowId, setRowId,updateModal: setShowModal,updateRow: setRow, action: "delete" }}
+        />
+      ),
+    },
+
     [rowId],
   ];
 
-  const rows = [
-    {
-      id: 1,
-      photoUrl: img1,
-      name: "kshitiz",
-      price: "20000",
-      quantity: 2,
-      category: "label",
-      availability: "2023-05-13T15:30:45.000Z",
-    },
-    {
-      id: 2,
-      photoUrl: img2,
-      name: "aakash",
-      price: "20000",
-      quantity: 2,
-      category: "label",
-      availability: "2023-05-13T15:30:45.000Z",
-    },
-    {
-      id: 3,
-      photoUrl: img3,
-      name: "bhavi",
-      price: "20000",
-      quantity: 2,
-      category: "label",
-      availability: "2023-05-13T15:30:45.000Z",
-    },
-  ];
+  const handleAddRow = () => {
+    setShowModal(true);
+    setRow(false);
+  };
+
   return (
     <div>
+      {showModal && (
+        <PopUpEdit
+          action="Add Row"
+          show={setShowModal}
+          updateTable={setRow}
+          onHide={() => setShowModal(false)}
+        />
+      )}
       <Box
         sx={{
-          height: "400",
-          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "16px",
         }}
       >
         <Typography
-          variant="h3"
-          component="h3"
-          sx={{ textAlign: "center", mt: 3, mb: 3 }}
-        ></Typography>
+          variant="h4"
+          component="h4"
+          sx={{
+            fontWeight: "700",
+            textAlign: "center",
+            flexGrow: 1,
+            color: "black",
+          }}
+        >
+          Items
+        </Typography>
+        <div style={{ marginRight: "20px", marginTop: "20px" }}>
+          <Button
+            variant="primary"
+            onClick={() => handleAddRow()}
+            sx={{ marginRight: "20px" }}
+          >
+            Add Row
+          </Button>
+        </div>
       </Box>
-      <DataGrid
-        columns={columns}
-        rows={rows}
-        onCellEditCommit={(params) => setRowId(params.id)}
-      />
+      <Scrollbars style={{ width: "1000px", height: "400px" }}>
+        <DataGrid
+          columns={columns}
+          rows={rowData}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          onCellEditCommit={(params) => setRowId(params.id)}
+        />
+      </Scrollbars>
     </div>
   );
 }
