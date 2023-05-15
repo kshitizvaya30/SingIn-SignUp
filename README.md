@@ -11,6 +11,12 @@ https://github.com/kshitizvaya30/SingIn-SignUp/assets/75470682/931bc67c-3a9b-435
 <img width="1680" alt="Screenshot 2023-05-15 at 9 03 11 PM" src="https://github.com/kshitizvaya30/SingIn-SignUp/assets/75470682/37a11f0e-dccf-4f36-92d2-537d13b386d9">
 <img width="1680" alt="Screenshot 2023-05-15 at 9 03 04 PM" src="https://github.com/kshitizvaya30/SingIn-SignUp/assets/75470682/5c60f7e8-cf35-4202-8005-4c796cb22dcb">
 
+<img width="1680" alt="Screenshot 2023-05-15 at 11 48 37 PM" src="https://github.com/kshitizvaya30/SingIn-SignUp/assets/75470682/65ca1075-2384-4b94-ba73-72fe671f37fe">
+<img width="1680" alt="Screenshot 2023-05-15 at 11 48 54 PM" src="https://github.com/kshitizvaya30/SingIn-SignUp/assets/75470682/577701b5-231f-4daa-a393-8839b572212c">
+<img width="1680" alt="Screenshot 2023-05-15 at 11 49 04 PM" src="https://github.com/kshitizvaya30/SingIn-SignUp/assets/75470682/54e4fc7e-6e0d-4d2f-84fb-b84ed76ddabf">
+<img width="1680" alt="Screenshot 2023-05-15 at 11 49 17 PM" src="https://github.com/kshitizvaya30/SingIn-SignUp/assets/75470682/2fe7e2ed-37da-4ac1-a3fe-a2d433806d6e">
+<img width="1680" alt="Screenshot 2023-05-15 at 11 49 24 PM" src="https://github.com/kshitizvaya30/SingIn-SignUp/assets/75470682/58a787af-1c9e-447e-8eaa-51fcca4a316b">
+<img width="1680" alt="Screenshot 2023-05-15 at 11 49 31 PM" src="https://github.com/kshitizvaya30/SingIn-SignUp/assets/75470682/23b75608-61c0-4985-97ee-40196c5e2989">
 
 
 
