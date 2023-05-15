@@ -4,6 +4,7 @@
     align-items: center;
     flex-direction: column;
     height: 100vh;
+    width: 100%;
 
     .backgroundImage {
         .imgContainer {
@@ -20,13 +21,14 @@
     .heading {
         font-size: 50px;
         font-weight: 700;
-        margin-top: 100px;
+        margin-top: 50px;
         color: rgb(249, 83, 22);
     }
 
     .tableData {
         margin: 20px;
-        background-color: rgb(255, 255, 255,0.9);
+        background-color: rgb(255, 255, 255,0.95);
         border-radius: 30px;
+        width: 90%;
     }
 }

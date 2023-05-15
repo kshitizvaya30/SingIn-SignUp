@@ -6,6 +6,7 @@ export const Context = createContext();
 const AppContext = ({ children }) => {
   const navigate = useNavigate();
   const [rowData, setRowData] = useState([]);
+  const[rowCount, setRowCount] = useState(0);
   const [user, setUser] = useState({
     id: "",
     signInId: "",
@@ -153,7 +154,7 @@ const AppContext = ({ children }) => {
       });
   };
 
-  const getItems = async () => {
+  const getItems = async (page, pageSize) => {
     let config = {
       method: "get",
       maxBodyLength: Infinity,
@@ -161,16 +162,19 @@ const AppContext = ({ children }) => {
       headers: {
         "Content-Type": "application/json",
       },
+      params: {
+        page: page + 1, // Add 1 to convert zero-based index to one-based index
+        pageSize,
+      },
     };
-
-    axios
-      .request(config)
-      .then((response) => {
-        setRowData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  
+    try {
+      const response = await axios.request(config);
+      setRowData(response.data.items);
+      setRowCount(response.data.totalCount)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const addNewRow = async (newRow, showModal) => {
@@ -226,7 +230,8 @@ const AppContext = ({ children }) => {
         setRowData,
         addNewRow,
         updateNewRow,
-        handleDelete
+        handleDelete,
+        rowCount,
       }}
     >
       {children}

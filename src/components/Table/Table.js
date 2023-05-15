@@ -1,26 +1,21 @@
-import { Avatar, Box, Typography } from "@mui/material";
+import { Avatar, Box, makeStyles, Pagination, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import UserActions from "./UserActions";
-import { Button } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import PopUpEdit from "./PopUpEdit";
 import { Context } from "../../context/AppContext";
 import Scrollbars from "react-custom-scrollbars";
 
 function Table() {
   const [rowId, setRowId] = useState();
-  const [pageSize, setPageSize] = useState(5);
   const [showModal, setShowModal] = useState(false);
-  const { getItems, rowData } = useContext(Context);
+  const { getItems, rowData, rowCount } = useContext(Context);
   const [row, setRow] = useState(true);
-
-  useEffect(() => {
-    if (row) {
-      getItems();
-      setRow(false);
-    }
-  }, [row]);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [noOfPages, setnoOfPages] = useState(5);
 
   const columns = [
     {
@@ -65,7 +60,14 @@ function Table() {
       type: "actions",
       renderCell: (params) => (
         <UserActions
-          {...{ params, rowId, setRowId,updateModal: setShowModal,updateRow: setRow, action: "edit" }}
+          {...{
+            params,
+            rowId,
+            setRowId,
+            updateModal: setShowModal,
+            updateRow: setRow,
+            action: "edit",
+          }}
         />
       ),
     },
@@ -75,7 +77,14 @@ function Table() {
       type: "actions",
       renderCell: (params) => (
         <UserActions
-          {...{ params, rowId, setRowId,updateModal: setShowModal,updateRow: setRow, action: "delete" }}
+          {...{
+            params,
+            rowId,
+            setRowId,
+            updateModal: setShowModal,
+            updateRow: setRow,
+            action: "delete",
+          }}
         />
       ),
     },
@@ -83,13 +92,34 @@ function Table() {
     [rowId],
   ];
 
+  useEffect(() => {
+    if (row) {
+      getItems(page, pageSize);
+      setRow(false);
+      const pageCount = Math.ceil(rowCount / pageSize);
+      setnoOfPages(pageCount);
+    }
+  }, [row]);
+
   const handleAddRow = () => {
     setShowModal(true);
     setRow(false);
   };
 
+  const handlePageSizeChange = (event) => {
+    const selectedPageSize = parseInt(event.target.value);
+    setPageSize(selectedPageSize);
+    setPage(1);
+    setRow(true);
+  };
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+    setRow(true);
+  };
+
   return (
-    <div>
+    <Container style={{ width: "90%" }}>
       {showModal && (
         <PopUpEdit
           action="Add Row"
@@ -118,7 +148,7 @@ function Table() {
         >
           Items
         </Typography>
-        <div style={{ marginRight: "20px", marginTop: "20px" }}>
+        <div style={{ marginTop: "5%" }}>
           <Button
             variant="primary"
             onClick={() => handleAddRow()}
@@ -128,17 +158,47 @@ function Table() {
           </Button>
         </div>
       </Box>
-      <Scrollbars style={{ width: "1000px", height: "400px" }}>
+      <Scrollbars style={{ width: "100%", height: "400px" }}>
         <DataGrid
           columns={columns}
           rows={rowData}
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          onCellEditCommit={(params) => setRowId(params.id)}
+          hideFooterPagination
+          hideFooterSelectedRowCount
+          autoHeight
+          // paginationModel={paginationModel}
+          // onPaginationModelChange={handlePageSizeChange}
         />
       </Scrollbars>
-    </div>
+      <Box pt={3} pb={2} mb={2} display="flex" justifyContent="center" style={{backgroundColor:'#f2f2f2'}}>
+        <Container display="flex" justifyContent="center" alignItems="center">
+          <Typography
+            variant="body2"
+            component="span"
+            sx={{ marginRight: "10px" }}
+          >
+            Rows per page:
+          </Typography>
+          <select
+            value={pageSize}
+            onChange={handlePageSizeChange}
+            style={{ borderRadius: "2px", borderColor: "#808080" }}
+          >
+            <option value={10}>10</option>
+            <option value={25}>25</option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
+          </select>
+        </Container>
+        <Container>
+          <Pagination
+            count={noOfPages}
+            color="primary"
+            onChange={(event, newPage) => handlePageChange(newPage)}
+            page={page}
+          />
+        </Container>
+      </Box>
+    </Container>
   );
 }
-
 export default Table;
