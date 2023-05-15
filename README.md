@@ -1,3 +1,19 @@
+# Video Explanation of the Project
+
+
+https://github.com/kshitizvaya30/SingIn-SignUp/assets/75470682/931bc67c-3a9b-4351-b2ca-94d4902599db
+
+
+
+# ScreenShot of the Project
+<img width="1680" alt="Screenshot 2023-05-15 at 8 45 34 PM" src="https://github.com/kshitizvaya30/SingIn-SignUp/assets/75470682/14e3d8b1-3733-46ab-a5d0-418fd383a46a">
+<img width="1680" alt="Screenshot 2023-05-15 at 9 02 12 PM" src="https://github.com/kshitizvaya30/SingIn-SignUp/assets/75470682/dd7e694f-9399-4144-b9a6-4b51e485fa4c">
+<img width="1680" alt="Screenshot 2023-05-15 at 9 03 11 PM" src="https://github.com/kshitizvaya30/SingIn-SignUp/assets/75470682/37a11f0e-dccf-4f36-92d2-537d13b386d9">
+<img width="1680" alt="Screenshot 2023-05-15 at 9 03 04 PM" src="https://github.com/kshitizvaya30/SingIn-SignUp/assets/75470682/5c60f7e8-cf35-4202-8005-4c796cb22dcb">
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
