@@ -13,19 +13,18 @@ function PopUpEdit(props) {
     category: "",
     availability: "",
     quantity: "",
+    item_image: "",
     userId: user.id,
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-
     if (props.action === "Confirm Delete") {
-      handleDelete(newRow.id,newRow.userId);
+      handleDelete(newRow.id, newRow.userId);
       props.updateRow(true);
       return;
     }
-
 
     // Empty Check
     if (newRow.name === "") {
@@ -64,7 +63,6 @@ function PopUpEdit(props) {
       updateNewRow(newRow, props.updateModal);
       props.updateRow(true);
     }
-
   };
 
   useEffect(() => {
@@ -72,7 +70,7 @@ function PopUpEdit(props) {
       // console.log(props.params);
       setNewRow((prevNewRow) => ({
         ...prevNewRow,
-        id:props.params.row.id,
+        id: props.params.row.id,
         name: props.params.row.item_name,
         price: props.params.row.selling_price,
         category: props.params.row.item_category,
@@ -98,11 +96,22 @@ function PopUpEdit(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Edit Current Item
+          {props.action}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
+          <Form.Group className="mb-3" controlId="imgUrl">
+            <Form.Label>PhotoUrl</Form.Label>
+            <Form.Control
+              type="file"
+              placeholder={newRow.imgUrl}
+              onChange={(e) => {
+                console.log(e.target.value)
+                handleCredentials("item_image", e.target.value);
+              }}
+            />
+          </Form.Group>
           <Form.Group className="mb-3" controlId="name">
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -160,7 +169,7 @@ function PopUpEdit(props) {
             type="submit"
             onClick={(e) => handleSubmit(e)}
           >
-            {props.action}
+            Confirm
           </Button>
         </Form>
       </Modal.Body>

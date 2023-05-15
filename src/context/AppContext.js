@@ -6,7 +6,7 @@ export const Context = createContext();
 const AppContext = ({ children }) => {
   const navigate = useNavigate();
   const [rowData, setRowData] = useState([]);
-  const[rowCount, setRowCount] = useState(0);
+  const [rowCount, setRowCount] = useState(1);
   const [user, setUser] = useState({
     id: "",
     signInId: "",
@@ -43,20 +43,23 @@ const AppContext = ({ children }) => {
         const data = response.data;
 
         if (response.status === 200) {
-          setUser((prevUser) => ({
-            ...prevUser,
-            signInId: LoginId,
-            isLoggedIn: loggedIn,
-            id: data[0].id,
-            email: data[0].email !== undefined ? data[0].email : "",
-            name: data[0].name !== undefined ? data[0].name : "",
-            phone_number:
-              data[0].phone_number !== undefined ? data[0].phone_number : "",
-            city: data[0].city !== undefined ? data[0].city : "",
-            state: data[0].state !== undefined ? data[0].state : "",
-            pincode: data[0].pincode !== undefined ? data[0].pincode : "",
-          }));
-          navigate("/profile");
+          setTimeout(() => {
+            setUser((prevUser) => ({
+              ...prevUser,
+              signInId: LoginId,
+              isLoggedIn: loggedIn,
+              id: data[0].id,
+              email: data[0].email !== undefined ? data[0].email : "",
+              name: data[0].name !== undefined ? data[0].name : "",
+              phone_number:
+                data[0].phone_number !== undefined ? data[0].phone_number : "",
+              city: data[0].city !== undefined ? data[0].city : "",
+              state: data[0].state !== undefined ? data[0].state : "",
+              pincode: data[0].pincode !== undefined ? data[0].pincode : "",
+            }));
+            setLoading(false);
+            navigate("/profile");
+          }, 1000);
         }
       })
       .catch((error) => {
@@ -66,7 +69,10 @@ const AppContext = ({ children }) => {
             alert("Invalid Credentials");
           }, 1000);
         } else {
-          console.log("Other error occurred");
+          setTimeout(() => {
+            setLoading(false);
+            alert("Internal Server Error");
+          }, 1000);
           console.log(error);
         }
       });
@@ -114,7 +120,7 @@ const AppContext = ({ children }) => {
         } else {
           setTimeout(() => {
             setLoading(false);
-            alert("Other error occurred");
+            alert("Intenal Server Error");
             console.log(error);
           }, 1000);
         }
@@ -163,15 +169,19 @@ const AppContext = ({ children }) => {
         "Content-Type": "application/json",
       },
       params: {
-        page: page + 1, // Add 1 to convert zero-based index to one-based index
+        page: page, 
         pageSize,
       },
     };
-  
+
     try {
       const response = await axios.request(config);
       setRowData(response.data.items);
-      setRowCount(response.data.totalCount)
+      const val = Math.ceil(response.data.totalCount/pageSize);
+      if(val < 0)setRowCount(1);
+      else setRowCount(val);
+      console.log(response.data, rowCount);
+      
     } catch (error) {
       console.log(error);
     }
@@ -191,7 +201,6 @@ const AppContext = ({ children }) => {
       });
   };
 
-
   const updateNewRow = async (newRow, updateModal) => {
     axios
       .put("http://localhost:8080/api/items", newRow)
@@ -206,16 +215,15 @@ const AppContext = ({ children }) => {
       });
   };
 
-
-    const handleDelete = async (itemId, userId) => {
-      try {
-        await axios.delete(`http://localhost:8080/api/items/${itemId}/${userId}`);
-        console.log('Item deleted successfully');
-        alert("Item Deleted SuccessFully");
-      } catch (error) {
-        console.error('Error deleting item:', error);
-      }
-    };
+  const handleDelete = async (itemId, userId) => {
+    try {
+      await axios.delete(`http://localhost:8080/api/items/${itemId}/${userId}`);
+      console.log("Item deleted successfully");
+      alert("Item Deleted SuccessFully");
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
+  };
 
   return (
     <Context.Provider
@@ -232,6 +240,7 @@ const AppContext = ({ children }) => {
         updateNewRow,
         handleDelete,
         rowCount,
+        setRowCount,
       }}
     >
       {children}

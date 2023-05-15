@@ -55,7 +55,6 @@ function Profile() {
     }
     setEdit(true);
     updateUserData(userDetails);
-    //Update Data using API
   };
 
   const handleCredentials = (key, value) => {

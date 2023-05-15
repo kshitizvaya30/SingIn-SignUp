@@ -11,11 +11,10 @@ import Scrollbars from "react-custom-scrollbars";
 function Table() {
   const [rowId, setRowId] = useState();
   const [showModal, setShowModal] = useState(false);
-  const { getItems, rowData, rowCount } = useContext(Context);
+  const { getItems, rowData, rowCount, setRowCount } = useContext(Context);
   const [row, setRow] = useState(true);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [noOfPages, setnoOfPages] = useState(5);
 
   const columns = [
     {
@@ -89,27 +88,28 @@ function Table() {
       ),
     },
 
-    [rowId],
+    // [rowId],
   ];
 
   useEffect(() => {
     if (row) {
       getItems(page, pageSize);
       setRow(false);
-      const pageCount = Math.ceil(rowCount / pageSize);
-      setnoOfPages(pageCount);
+      if(rowCount < 0)setRowCount(1);
     }
   }, [row]);
 
   const handleAddRow = () => {
     setShowModal(true);
-    setRow(false);
+    getItems(page, pageSize);
+    setRow(true);
   };
 
   const handlePageSizeChange = (event) => {
     const selectedPageSize = parseInt(event.target.value);
     setPageSize(selectedPageSize);
     setPage(1);
+    getItems(1, selectedPageSize);
     setRow(true);
   };
 
@@ -169,8 +169,15 @@ function Table() {
           // onPaginationModelChange={handlePageSizeChange}
         />
       </Scrollbars>
-      <Box pt={3} pb={2} mb={2} display="flex" justifyContent="center" style={{backgroundColor:'#f2f2f2'}}>
-        <Container display="flex" justifyContent="center" alignItems="center">
+      <Box
+        pt={3}
+        pb={2}
+        mb={2}
+        display="flex"
+        justifyContent="center"
+        style={{ backgroundColor: "#f2f2f2" }}
+      >
+        <Container style={{ display:"flex", justifyContent:"center" ,alignItems:"center"}}>
           <Typography
             variant="body2"
             component="span"
@@ -191,7 +198,7 @@ function Table() {
         </Container>
         <Container>
           <Pagination
-            count={noOfPages}
+            count={rowCount}
             color="primary"
             onChange={(event, newPage) => handlePageChange(newPage)}
             page={page}
